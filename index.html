@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DETAILSTROY — Отделка квартир и домов в Майкопе</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0d;
+    --surface: #161614;
+    --border: #2a2a27;
+    --text: #f0ede6;
+    --muted: #7a7870;
+    --accent: #c8a96e;
+    --accent2: #e8d5a8;
+    --white: #f9f6ef;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Onest', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: rgba(14,14,13,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--white); }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: var(--accent); color: var(--bg); border: none; padding: 0.7rem 1.8rem; font-family: 'Unbounded', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: background 0.3s, transform 0.2s; }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; position: relative; overflow: hidden; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 6rem 4rem; position: relative; z-index: 2; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 2rem; }
+  .hero-tag::before { content: ''; width: 28px; height: 1px; background: var(--accent); display: block; }
+  h1 { font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: clamp(2.8rem, 4.5vw, 5rem); line-height: 1.0; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1.8rem; }
+  h1 em { font-style: normal; color: var(--accent); display: block; }
+  .hero-desc { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 420px; margin-bottom: 2rem; }
+
+  /* Trust badges under desc */
+  .hero-badges { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .badge { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); }
+  .badge::before { content: '✓'; color: var(--accent); font-weight: 700; }
+
+  .hero-btns { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary { background: var(--accent); color: var(--bg); border: none; padding: 1rem 2.4rem; font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-ghost { color: var(--muted); border: 1px solid var(--border); padding: 1rem 2.4rem; font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; background: transparent; transition: all 0.3s; text-decoration: none; display: inline-block; }
+  .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.55) contrast(1.1); }
+  .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, var(--bg) 0%, transparent 40%); }
+  .hero-stats { position: absolute; bottom: 3rem; right: 3rem; display: flex; gap: 1rem; z-index: 3; }
+  .stat { background: rgba(14,14,13,0.85); border: 1px solid var(--border); backdrop-filter: blur(8px); padding: 1.2rem 1.8rem; text-align: center; }
+  .stat-num { font-family: 'Unbounded', sans-serif; font-size: 2rem; font-weight: 900; color: var(--accent); line-height: 1; display: block; }
+  .stat-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.3rem; display: block; }
+
+  /* HOW WE WORK */
+  .process { background: var(--surface); padding: 5rem 4rem; border-top: 1px solid var(--border); }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 3.5rem; }
+  .process-step { padding: 2.5rem 2rem; border-right: 1px solid var(--border); position: relative; }
+  .process-step:last-child { border-right: none; }
+  .step-num { font-family: 'Unbounded', sans-serif; font-size: 3rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 1.2rem; display: block; }
+  .step-title { font-family: 'Unbounded', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+  .step-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.65; }
+
+  /* SERVICES */
+  .section { padding: 7rem 4rem; }
+  .section-header { margin-bottom: 4rem; }
+  .section-tag { color: var(--accent); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+  .section-tag::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+  h2 { font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: clamp(2rem, 3vw, 3.2rem); letter-spacing: -0.03em; color: var(--white); line-height: 1.1; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .service-card { background: var(--surface); padding: 2.5rem; transition: background 0.3s; }
+  .service-card:hover { background: #1c1c1a; }
+  .service-num { font-family: 'Unbounded', sans-serif; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1.5rem; display: block; }
+  .service-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+  .service-card h3 { font-family: 'Unbounded', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+  .service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); }
+  .projects-grid { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 300px 300px; gap: 1px; background: var(--border); }
+  .project-card { background: var(--bg); overflow: hidden; position: relative; cursor: pointer; }
+  .project-card:first-child { grid-row: 1 / 3; }
+  .project-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5) contrast(1.1) grayscale(0.15); transition: transform 0.6s ease, filter 0.4s; display: block; }
+  .project-card:hover .project-img { transform: scale(1.04); filter: brightness(0.7) contrast(1.1); }
+  .project-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(to top, rgba(14,14,13,0.95) 0%, transparent 100%); }
+  .project-tag { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+  .project-info h3 { font-family: 'Unbounded', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--white); }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap img { width: 100%; height: 500px; object-fit: cover; filter: brightness(0.7) contrast(1.1) grayscale(0.1); display: block; }
+  .about-img-wrap::before { content: ''; position: absolute; top: -20px; left: -20px; width: 60%; height: 60%; border: 1px solid var(--accent); z-index: -1; }
+  .about-text p { color: var(--muted); font-size: 1rem; line-height: 1.75; margin-bottom: 1.5rem; }
+  .about-list { list-style: none; margin-top: 2rem; }
+  .about-list li { display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.95rem; }
+  .about-list li::before { content: '→'; color: var(--accent); font-size: 1rem; flex-shrink: 0; }
+
+  /* PROMO STRIP */
+  .promo-strip {
+    background: var(--accent);
+    padding: 2.5rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .promo-strip h3 { font-family: 'Unbounded', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--bg); letter-spacing: -0.02em; }
+  .promo-strip p { color: rgba(14,14,13,0.65); font-size: 0.9rem; margin-top: 0.4rem; }
+  .btn-dark { background: var(--bg); color: var(--white); border: none; padding: 1rem 2.4rem; font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+  .btn-dark:hover { background: #1c1c1a; transform: translateY(-2px); }
+
+  /* CONTACT */
+  #contact { background: var(--surface); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-info p { color: var(--muted); line-height: 1.75; margin-bottom: 2.5rem; font-size: 1rem; margin-top: 1.5rem; }
+  .contact-detail { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+  .contact-icon { width: 40px; height: 40px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; color: var(--accent); }
+  .contact-detail-text label { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+  .contact-detail-text span { color: var(--text); font-size: 0.95rem; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .form-group input, .form-group textarea, .form-group select { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.9rem 1rem; font-family: 'Onest', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.3s; resize: none; -webkit-appearance: none; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  .form-group select option { background: var(--bg); }
+  .btn-submit { background: var(--accent); color: var(--bg); border: none; padding: 1.1rem 2.4rem; font-family: 'Unbounded', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; align-self: flex-start; }
+  .btn-submit:hover { background: var(--accent2); transform: translateY(-2px); }
+  .success-msg { display: none; background: rgba(200,169,110,0.1); border: 1px solid var(--accent); padding: 1rem 1.5rem; color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem; }
+
+  footer { padding: 3rem 4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  footer p { color: var(--muted); font-size: 0.82rem; letter-spacing: 0.05em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-left > * { animation: fadeUp 0.8s ease both; }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.5s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.6s; }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 6rem 2rem; }
+    .section { padding: 5rem 2rem; }
+    .process { padding: 4rem 2rem; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .project-card:first-child { grid-row: auto; }
+    .project-img { min-height: 280px; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .promo-strip { flex-direction: column; align-items: flex-start; padding: 2rem; }
+  }
+  @media (max-width: 600px) {
+    .process-steps { grid-template-columns: 1fr; }
+    .hero-badges { flex-direction: column; gap: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">DETAILSTROY</div>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#process">Как работаем</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#contact">Контакты</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Рассчитать стоимость</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Отделка квартир и домов в Майкопе</div>
+    <h1>Ваш интерьер —<em>наша работа</em></h1>
+    <p class="hero-desc">Превращаем голые стены в пространство, в котором хочется жить. Полный цикл чистовой отделки — от штукатурки до декора. Без посредников, в срок, с гарантией.</p>
+    <div class="hero-badges">
+      <span class="badge">Делаем красиво, сдаём в срок</span>
+      <span class="badge">Фиксированная смета</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Получить смету бесплатно</a>
+      <a href="#services" class="btn-ghost">Наши услуги</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80" alt="Отделка интерьера">
+
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section class="process" id="process">
+  <div class="section-header">
+    <div class="section-tag">Просто и прозрачно</div>
+    <h2>Как мы работаем</h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step">
+      <span class="step-num">01</span>
+      <div class="step-title">Замер и консультация</div>
+      <p class="step-desc">Приезжаем, смотрим объект, задаём нужные вопросы. Консультация и замер — бесплатно.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">02</span>
+      <div class="step-title">Фиксированная смета</div>
+      <p class="step-desc">Составляем подробную смету с ценами на работы и материалы. Цена не меняется в процессе.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">03</span>
+      <div class="step-title">Выполнение работ</div>
+      <p class="step-desc">Работаем по графику. Вы получаете фотоотчёт на каждом этапе и доступ к объекту в любое время.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">04</span>
+      <div class="step-title">Сдача и гарантия</div>
+      <p class="step-desc">Принимаете работу по чек-листу. Подписываем акт. Гарантия на все виды работ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header">
+    <div class="section-tag">Что мы делаем</div>
+    <h2>Наши услуги</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <span class="service-icon">🏠</span>
+      <h3>Капитальный ремонт</h3>
+      <p>Полный комплекс ремонтных работ под ключ — квартиры, дома, офисы. Чистовая отделка с гарантией качества.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <span class="service-icon">🖌</span>
+      <h3>Штукатурные и малярные работы</h3>
+      <p>Выравнивание стен и потолков, нанесение штукатурки, покраска поверхностей — идеально ровный результат.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <span class="service-icon">⬛</span>
+      <h3>Укладка плитки и напольных покрытий</h3>
+      <p>Монтаж керамической и керамогранитной плитки, ламината, паркета и других покрытий любой сложности.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">04</span>
+      <span class="service-icon">📐</span>
+      <h3>Монтаж гипсокартона и потолков</h3>
+      <p>Перегородки, арки, ниши и многоуровневые потолки из гипсокартона. Натяжные потолки любых форм и конфигураций.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">05</span>
+      <span class="service-icon">✨</span>
+      <h3>Декоративная штукатурка</h3>
+      <p>Венецианская штукатурка, короед, камешковая и другие декоративные фактуры — создаём уникальные интерьеры.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-num">06</span>
+      <span class="service-icon">🏛</span>
+      <h3>Лепнина и декоративные элементы</h3>
+      <p>Изготовление и монтаж лепных карнизов, розеток, колонн и авторских декоративных элементов для особой атмосферы.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div>
+    <h3>Бесплатный замер и смета за 24 часа</h3>
+    <p>Приедем, всё измерим и рассчитаем стоимость — без обязательств с вашей стороны</p>
+  </div>
+  <button class="btn-dark" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Вызвать замерщика →</button>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about-grid" style="grid-template-columns: 1fr;">
+    <div class="about-text">
+      <div class="section-header">
+        <div class="section-tag">О компании</div>
+        <h2>Мастера, а не посредники</h2>
+      </div>
+      <p>Мы занимаемся только внутренней отделкой в Майкопе — и делаем это хорошо. Никаких субподрядчиков: все работы выполняют наши штатные мастера, которых мы отбирали годами.</p>
+      <p>Мы не берём предоплату за материалы без чека. Вы видите каждую трату — и платите ровно столько, сколько написано в смете.</p>
+      <ul class="about-list">
+        <li>Собственная бригада без субподряда</li>
+        <li>Фиксированная смета — цена не растёт</li>
+        <li>Фотоотчёт на каждом этапе работ</li>
+        <li>Гарантия на все работы</li>
+        <li>Работаем по договору с юридической ответственностью</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="section-header">
+        <div class="section-tag">Связаться с нами</div>
+        <h2>Рассчитаем стоимость бесплатно</h2>
+      </div>
+      <p>Оставьте заявку — перезвоним в течение 30 минут. Приедем, сделаем замер и составим подробную смету без обязательств с вашей стороны.</p>
+      <div class="contact-detail">
+        <div class="contact-icon">📞</div>
+        <div class="contact-detail-text">
+          <label>Телефон</label>
+          <span>+7 (900) 000-11-69</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-detail-text">
+          <label>Email</label>
+          <span>detailstroy@yandex.ru</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail-text">
+          <label>Город</label>
+          <span>Майкоп</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">🕐</div>
+        <div class="contact-detail-text">
+          <label>Режим работы</label>
+          <span>Ежедневно с 9:00 до 20:00</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="handleSubmit(event)" action="https://formspree.io/f/maqprejg" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя</label>
+            <input type="text" placeholder="Иван Иванов" required>
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input type="tel" placeholder="+7 (___) ___-__-__" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Тип помещения</label>
+          <select>
+            <option value="">Квартира / дом / офис</option>
+            <option>Квартира</option>
+            <option>Частный дом / коттедж</option>
+            <option>Офис / коммерческое помещение</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Интересует</label>
+          <select>
+            <option value="">Выберите услугу</option>
+            <option>Капитальный ремонт</option>
+            <option>Штукатурные и малярные работы</option>
+            <option>Укладка плитки и напольных покрытий</option>
+            <option>Монтаж гипсокартона и потолков</option>
+            <option>Декоративная штукатурка</option>
+            <option>Лепнина и декоративные элементы</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Площадь (м²) и пожелания</label>
+          <textarea rows="4" placeholder="Например: 60 м², однушка, нужна полная отделка под ключ..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Отправить заявку →</button>
+        <div class="success-msg" id="successMsg">✓ Заявка принята! Перезвоним вам в течение 30 минут.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">DETAILSTROY</div>
+  <p>© 2025 DETAILSTROY. Все права защищены.</p>
+  <p>Отделка квартир и домов в Майкопе</p>
+</footer>
+
+<script>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.btn-submit');
+    btn.textContent = 'Отправка...';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch('https://formspree.io/f/maqprejg', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        document.getElementById('successMsg').style.display = 'block';
+        form.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+        setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 6000);
+      } else {
+        alert('Ошибка при отправке. Позвоните нам напрямую: +7 (900) 000-11-69');
+      }
+    } catch {
+      alert('Ошибка соединения. Позвоните нам напрямую: +7 (900) 000-11-69');
+    }
+
+    btn.textContent = 'Отправить заявку →';
+    btn.disabled = false;
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.service-card, .project-card, .process-step').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity 0.6s ${i * 0.08}s ease, transform 0.6s ${i * 0.08}s ease`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
